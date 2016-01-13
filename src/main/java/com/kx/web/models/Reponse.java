@@ -9,7 +9,7 @@ public class Reponse {
     private Object data;
 
 
-    public Reponse(Object data, int status) {
+    public Reponse(int status,Object data ) {
         this.data = data;
         this.status = status;
     }
