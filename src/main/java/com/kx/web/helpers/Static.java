@@ -62,7 +62,7 @@ public class Static {
         // on rend le dictionnaire
         return hash;
     }
-    public static Map<String, Object> getMapForAgendaMedecinJour(AgendaMedecinJour agenda) { 3. // qq chose à faire ?
+    public static Map<String, Object> getMapForAgendaMedecinJour(AgendaMedecinJour agenda) {
         if (agenda == null) {
             return null;
         }
@@ -87,6 +87,19 @@ public class Static {
         Map<String, Object> hash = new HashMap<String, Object>();
         hash.put("creneau", getMapForCreneau(créneau.getCreneau()));
         hash.put("rv", getMapForRv(créneau.getRv()));
+        // on rend le dictionnaire
+        return hash;
+    }
+    public static Map<String, Object> getMapForRv2(Rv rv) {
+// qq chose à faire ?
+        if (rv == null) {
+            return null;
+        }
+// dictionnaire <String,Object>
+        Map<String, Object> hash = new HashMap<String, Object>();
+        hash.put("id", rv.getId());
+        hash.put("idClient", rv.getIdClient());
+        hash.put("idCreneau", rv.getIdCreneau());
         // on rend le dictionnaire
         return hash;
     }

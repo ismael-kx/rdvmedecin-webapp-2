@@ -7,4 +7,11 @@ public class PostSupprimerRv {
 
     // données du post
     private long idRv;
+
+    public PostSupprimerRv(){
+
+    }
+    public long getIdRv(){
+        return idRv;
+    }
 }

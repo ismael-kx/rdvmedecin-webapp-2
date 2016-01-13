@@ -8,6 +8,18 @@ public class PostAjouterRv {
     // données du post
     private String jour;
     private long idClient;
+    private long idCreneau;
+
+    public PostAjouterRv() {
+    }
+
+    public long getIdCreneau() {
+        return idCreneau;
+    }
+
+    public void setIdCreneau(long idCreneau) {
+        this.idCreneau = idCreneau;
+    }
 
     public String getJour() {
         return jour;
