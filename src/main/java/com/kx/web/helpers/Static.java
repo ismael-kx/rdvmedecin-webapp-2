@@ -1,7 +1,11 @@
 package com.kx.web.helpers;
 
+import rdvmedecins.domain.AgendaMedecinJour;
+import rdvmedecins.domain.CreneauMedecinJour;
 import rdvmedecins.entities.Creneau;
+import rdvmedecins.entities.Rv;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,5 +48,47 @@ public class Static {
         hash.put("mFin", créneau.getMfin());
         // on rend le dictionnaire
         return hash;}
+
+    public static Map<String, Object> getMapForRv(Rv rv) {
+// qq chose à faire ?
+        if (rv == null) {
+            return null;
+        }
+// dictionnaire <String,Object>
+        Map<String, Object> hash = new HashMap<String, Object>();
+        hash.put("id", rv.getId());
+        hash.put("client", rv.getClient());
+        hash.put("creneau", getMapForCreneau(rv.getCreneau()));
+        // on rend le dictionnaire
+        return hash;
+    }
+    public static Map<String, Object> getMapForAgendaMedecinJour(AgendaMedecinJour agenda) { 3. // qq chose à faire ?
+        if (agenda == null) {
+            return null;
+        }
+// dictionnaire <String,Object>
+        Map<String, Object> hash = new HashMap<String, Object>();
+        hash.put("medecin", agenda.getMedecin());
+        hash.put("jour", new SimpleDateFormat("yyyy-MM-dd").format(agenda.getJour()));
+        List<Map<String, Object>> créneaux = new ArrayList<Map<String, Object>>();
+        for (CreneauMedecinJour créneau : agenda.getCreneaxuMedecinJour()) {
+            créneaux.add(getMapForCreneauMedecinJour(créneau));
+        }
+        hash.put("creneauxMedecin", créneaux);
+        // on rend le dictionnaire
+        return hash;
+    }
+    public static Map<String, Object> getMapForCreneauMedecinJour(CreneauMedecinJour créneau) {
+        // qq chose à faire ?
+        if (créneau == null) {
+            return null;
+        }
+        // dictionnaire <String,Object>
+        Map<String, Object> hash = new HashMap<String, Object>();
+        hash.put("creneau", getMapForCreneau(créneau.getCreneau()));
+        hash.put("rv", getMapForRv(créneau.getRv()));
+        // on rend le dictionnaire
+        return hash;
+    }
 
 }

@@ -7,6 +7,7 @@ import com.kx.web.models.PostSupprimerRv;
 import com.kx.web.models.Reponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import rdvmedecins.domain.AgendaMedecinJour;
 import rdvmedecins.entities.Creneau;
 import rdvmedecins.entities.Medecin;
 import rdvmedecins.entities.Rv;
@@ -109,7 +110,7 @@ public class RdvMedecinsController {
         // on rend la réponse
         return new Reponse(0, Static.getListMapForRvs(rvs));
     }
-    }
+
     @RequestMapping(value = "/getClientById/{id}", method = RequestMethod.GET)
     public Reponse getClientById(@PathVariable("id") long id) {  
     }
@@ -142,7 +143,26 @@ public class RdvMedecinsController {
     public Reponse supprimerRv(@RequestBody PostSupprimerRv post) {
     }
 
-    @RequestMapping(value = "/getAgendaMedecinJour/{idMedecin}/{jour}", method = RequestMethod.GET)
-    public Reponse getAgendaMedecinJour( @PathVariable("idMedecin") long idMedecin, @PathVariable("jour") String jour) {
-    }
+
+        @RequestMapping(value = "/getAgendaMedecinJour/{idMedecin}/{jour}", method = RequestMethod.GET)
+        public Reponse getAgendaMedecinJour(@PathVariable("idMedecin") long idMedecin,@PathVariable("jour") String jour) { // état de l'application
+            if (messages != null) {
+                return new Reponse(-1, messages); }
+            // on vérifie la date
+            Date jourAgenda = null;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); sdf.setLenient(false);
+            try {
+                jourAgenda = sdf.parse(jour); } catch (ParseException e) {
+                return new Reponse(3, new String[] { String.format("jour [%s] invalide", jour) }); }
+            // on récupère le médecin
+            Reponse réponse = getMedecinById(idMedecin); if (réponse.getStatus() != 0) {
+                return réponse; }
+            Medecin médecin = (Medecin) réponse.getData();
+            // on récupère son agenda
+            AgendaMedecinJour agenda = null; try {
+                agenda = application.getAgendaMedecinJour(médecin.getId(), jourAgenda); } catch (Exception e1) {
+                return new Reponse(4, Static.getErreursForException(e1)); }
+// ok
+            return new Reponse(0, Static.getMapForAgendaMedecinJour(agenda)); }
+
 }
